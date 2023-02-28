@@ -1,13 +1,13 @@
 package com.top.apiwallet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -23,5 +23,9 @@ public class Currency {
     public String code;
 
     public String description;
+
+    @OneToMany(mappedBy ="currency", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Wallet> wallets = new HashSet<>();
 
 }

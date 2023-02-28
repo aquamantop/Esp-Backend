@@ -21,8 +21,8 @@ public class Wallet {
 
     public String docNum;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idCurrency", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "idCurrency", nullable = false)
     public Currency currency;
 
     public Double balance;
