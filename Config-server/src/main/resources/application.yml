@@ -8,6 +8,6 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/aquamantop/Config
+          uri: https://github.com/aquamantop/Esp-Backend
           force-pull: true
           search-paths: configData
