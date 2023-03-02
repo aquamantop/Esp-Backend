@@ -9,5 +9,6 @@ spring:
       server:
         git:
           uri: https://github.com/aquamantop/Esp-Backend
+          default-label: main
           force-pull: true
           search-paths: configData
