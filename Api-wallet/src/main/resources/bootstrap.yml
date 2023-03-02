@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Api-wallet
+    name: api-wallet
   cloud:
     config:
       enabled: true

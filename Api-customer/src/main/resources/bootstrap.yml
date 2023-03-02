@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Api-customer
+    name: api-customer
   cloud:
     config:
       enabled: true
