@@ -6,7 +6,7 @@ spring:
     name: api-customer
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/practicaBackend?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/practicaBackend
     username: root
     password:
   jpa:
