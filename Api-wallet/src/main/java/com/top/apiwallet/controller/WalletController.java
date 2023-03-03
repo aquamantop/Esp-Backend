@@ -1,12 +1,16 @@
 package com.top.apiwallet.controller;
 
+import com.top.apiwallet.exceptions.CustomerNotFoundException;
 import com.top.apiwallet.model.Wallet;
 import com.top.apiwallet.services.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -17,7 +21,7 @@ public class WalletController {
     private WalletService walletService;
 
     @GetMapping("/{docType}/{docNum}/{code}")
-    public ResponseEntity<Optional<Wallet>> getWallet (@PathVariable String docType,
+    public ResponseEntity<Optional<Wallet>> get (@PathVariable String docType,
                                        @PathVariable String docNum,
                                        @PathVariable String code){
         ResponseEntity response = null;
@@ -29,15 +33,26 @@ public class WalletController {
         return response;
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<Wallet> save (@RequestBody Wallet wallet){
+    @PostMapping("/add")
+    public ResponseEntity<Wallet> add (@RequestBody Wallet wallet) throws CustomerNotFoundException {
         ResponseEntity response = null;
 
-        if(wallet != null){
-            response = new ResponseEntity(walletService.save(wallet), HttpStatus.OK);
-        } else response = new ResponseEntity("Wallet is null", HttpStatus.FORBIDDEN);
+        List<Wallet> lista = walletService.getBalanceByDocument(wallet.docType, wallet.docNum);
+
+        Integer n = 0;
+
+        for (Wallet w : lista) {
+            if(w.getCurrency().getId() == wallet.getCurrency().getId()){
+                n++;
+            }
+        }
+        if(n == 0){
+            response = new ResponseEntity<>(walletService.add(wallet), HttpStatus.OK);
+        } else response = new ResponseEntity("This currency is already in the wallet", HttpStatus.FORBIDDEN);
+
 
         return response;
+
     }
 
     @GetMapping("/{docType}/{docNum}")
