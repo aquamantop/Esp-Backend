@@ -7,8 +7,8 @@ spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/practicaBackend
-    username: root
-    password:
+    username: springuser
+    password: ThePassword
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
