@@ -1,7 +1,8 @@
 package com.top.apiwallet.services;
 
 import com.top.apiwallet.client.CustomerService;
-import com.top.apiwallet.exceptions.CustomerNotFoundException;
+import com.top.apiwallet.exceptions.WalletExceptions;
+import com.top.apiwallet.exceptions.MessageError;
 import com.top.apiwallet.model.CustomerDTO;
 import com.top.apiwallet.model.Wallet;
 import com.top.apiwallet.repository.WalletRepository;
@@ -23,10 +24,14 @@ public class WalletService {
         return customerService.getCustomer(docType, docNum);
     }
 
-    public Wallet add(Wallet wallet) throws CustomerNotFoundException {
-        if(getCustomer(wallet.docType, wallet.docNum).isPresent()){
-            return walletRepository.save(wallet);
-        } else throw new CustomerNotFoundException("Customer not found");
+    public Wallet add(Wallet wallet) throws WalletExceptions {
+
+        if(customerService.getCustomer(wallet.getDocType(), wallet.getDocNum()).isPresent()){
+            if(walletRepository.findByDocTypeAndDocNumAndCurrency_Code(wallet.getDocType(), wallet.getDocNum(), wallet.getCurrency().getCode()).isPresent()){
+                throw new WalletExceptions(MessageError.WALLET_EXISTS);
+            } else return walletRepository.save(wallet);
+        } else throw new WalletExceptions(MessageError.CUSTOMER_NOT_FOUND);
+
     }
 
     public Wallet update(Wallet wallet) {
