@@ -1,6 +1,7 @@
 package com.top.apicustomer.controller;
 
 import com.top.apicustomer.entity.Customer;
+import com.top.apicustomer.event.CustomerEventProducer;
 import com.top.apicustomer.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,9 @@ public class CustomerController {
 
     @Autowired
     public CustomerService customerService;
+
+    @Autowired
+    public CustomerEventProducer customerEventProducer;
 
     @GetMapping("/{doctype}/{docnum}")
     public ResponseEntity<Optional<Customer>> getCustomer (@PathVariable String doctype, @PathVariable String docnum){
@@ -31,6 +35,7 @@ public class CustomerController {
         ResponseEntity response = null;
 
         if(customer != null){
+            customerEventProducer.publishCustomerEvent(new CustomerEventProducer.Data(customer.getDocType(), customer.getDocNum()));
             response = new ResponseEntity(customerService.saveCustomer(customer), HttpStatus.OK);
         } else response = new ResponseEntity("Customer is null", HttpStatus.FORBIDDEN);
 

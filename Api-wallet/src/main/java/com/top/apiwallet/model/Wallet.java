@@ -7,10 +7,10 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Wallet {
 
     @Id
@@ -27,6 +27,12 @@ public class Wallet {
 
     public Double balance;
 
+    public Wallet(String docType, String docNum, Currency currency, Double balance) {
+        this.docType = docType;
+        this.docNum = docNum;
+        this.currency = currency;
+        this.balance = balance;
+    }
 }
 
 

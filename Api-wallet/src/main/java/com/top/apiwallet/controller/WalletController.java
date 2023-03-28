@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/wallet")
@@ -43,8 +42,7 @@ public class WalletController {
     }
 
     @GetMapping("/{docType}/{docNum}")
-    public ResponseEntity<List<Wallet>> getBalance (@PathVariable String docType,
-                                     @PathVariable String docNum){
+    public ResponseEntity<List<Wallet>> getBalance (@PathVariable String docType, @PathVariable String docNum){
         ResponseEntity response = null;
 
         if(docType != null && docNum != null){
