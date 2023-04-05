@@ -8,6 +8,7 @@ import com.top.apicard.repository.TarjetaCreditoRepository;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -90,7 +91,7 @@ public class CardService {
 
         // Verificamos que el numero de tarjeta pasado por parametro sea igual al numero de tarjeta buscado por num documento
         // Verificamos que el limite consumido sea menor o igual al balance del wallet (disponible para pagar)
-        if(tarjeta.getNumeroDeTarjeta() == cardNumber &&
+        if(Objects.equals(tarjeta.getNumeroDeTarjeta(), cardNumber) &&
                 tarjeta.getLimiteConsumido().compareTo(BigDecimal.valueOf(balanceWallet)) <= 0){
             // Hay que debitar el dinero de la wallet
             // Hay que devolver el limite disponible
